@@ -20,21 +20,21 @@ app.use(function(req, res, next)
 
 });
 
-app_proxy.use(function(req,res,next){
-	//adding to queue to retrieve 5 most recently visited urls in /recent
+//app_proxy.use(function(req,res,next){
+//	//adding to queue to retrieve 5 most recently visited urls in /recent
 	
 
 	//Here toggling between two servers is implemented
-	var url = "http://";
-	
-	client.rpoplpush("url","url",function(err,value){
-	console.log("redirecting to "+value+req.url)
-	res.redirect(307,value+req.url);
-	})
+//	var url = "http://";
+//	
+//	client.rpoplpush("url","url",function(err,value){
+//	console.log("redirecting to "+value+req.url)
+//	res.redirect(307,value+req.url);
+//	})
 	
 	
 
-});
+//});
 app.use('/uploads', express.static(__dirname + '/uploads'));
 
  app.post('/upload',[ multer({ dest: './uploads/'}), function(req, res){
@@ -75,7 +75,7 @@ app.use('/uploads', express.static(__dirname + '/uploads'));
 
 
 // HTTP SERVER
- var server1 = app.listen(3000, function () {
+ var server1 = app.listen(80, function () {
 
    var host = server1.address().address
    var port = server1.address().port
@@ -86,22 +86,22 @@ app.use('/uploads', express.static(__dirname + '/uploads'));
  })
 
 // HTTP SERVER 2
- var server2 = app.listen(3001, function () {
+// var server2 = app.listen(3001, function () {
 
-   var host = server2.address().address
-   var port = server2.address().port
-   client.lpush("url","http://"+host+":"+port)
-   console.log('Example app listening at http://%s:%s', host, port)
- })
+//   var host = server2.address().address
+//   var port = server2.address().port
+//   client.lpush("url","http://"+host+":"+port)
+//   console.log('Example app listening at http://%s:%s', host, port)
+// })
 
 // HTTP PROXY SERVER 
- var proxy = app_proxy.listen(3002, function () {
-
-	var host = proxy.address().address
-	var port = proxy.address().port
-
-	console.log('Example app listening at http://%s:%s', host, port)
- })
+// var proxy = app_proxy.listen(3002, function () {
+//
+//	var host = proxy.address().address
+//	var port = proxy.address().port
+//
+//	console.log('Example app listening at http://%s:%s', host, port)
+// })
 //set value that expires in 10 seconds
 app.get('/set', function(req, res) {
 client.set("key", "this message will self-destruct in 10 seconds")
