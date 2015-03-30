@@ -35,7 +35,7 @@ app.use(function(req, res, next)
 	
 
 //});
-app.use('/uploads', express.static(__dirname + '/uploads'));
+app.use(__dirname + '/uploads', express.static(__dirname + '/uploads'));
 
  app.post('/upload',[ multer({ dest: __dirname+'/uploads/'}), function(req, res){
     //console.log(req.body) // form fields
@@ -46,6 +46,7 @@ app.use('/uploads', express.static(__dirname + '/uploads'));
  	   fs.readFile( req.files.image.path, function (err, data) {
  	  		if (err) throw err;
  	  		var img = new Buffer(data).toString('base64');
+			// console.log(req.files.image.path);
 			client.rpush('items',req.files.image.path)
  	  		
  		});
@@ -60,9 +61,10 @@ app.use('/uploads', express.static(__dirname + '/uploads'));
  		//res.writeHead(200, {'content-type':'text/html'});
  		client.rpop('items',function (err,imagedata) 
  		{
+		// console.log("imagedata:" + imagedata);
  		if(imagedata != null){
 		res.writeHead(200, {'content-type':'text/html'});
-               res.write("<h1>\n<img src='/"+imagedata+"'/>");
+               res.write("<h1>\n<img src='"+imagedata+"'/>");
 		res.end();}
 		else
 		res.send("No image to display")
