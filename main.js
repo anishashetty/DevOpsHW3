@@ -37,7 +37,7 @@ app.use(function(req, res, next)
 //});
 app.use('/uploads', express.static(__dirname + '/uploads'));
 
- app.post('/upload',[ multer({ dest: './uploads/'}), function(req, res){
+ app.post('/upload',[ multer({ dest: __dirname+'/uploads/'}), function(req, res){
     //console.log(req.body) // form fields
     console.log(req.files) // form files
 
