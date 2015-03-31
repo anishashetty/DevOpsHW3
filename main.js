@@ -36,6 +36,7 @@ app.use(function(req, res, next)
 
 //});
 app.use(__dirname + '/uploads', express.static(__dirname + '/uploads'));
+app.use(__dirname + '/img', express.static(__dirname + '/img'));
 
  app.post('/upload',[ multer({ dest: __dirname+'/uploads/'}), function(req, res){
     //console.log(req.body) // form fields
@@ -74,7 +75,11 @@ app.use(__dirname + '/uploads', express.static(__dirname + '/uploads'));
  	}
  })
 
-
+app.get('/end', function(req, res){
+	res.writeHead(200, {'content-type':'text/html'});
+	res.write("<img src='" + __dirname + "/img/image.jpg'/>");
+	res.end();
+})
 
 // HTTP SERVER
  var server1 = app.listen(80, function () {
